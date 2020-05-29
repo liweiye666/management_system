@@ -7,4 +7,6 @@ package com.example.biz;
  * @Date: Created in 2020/5/29 17:18
  */
 public interface MenuBiz {
+
+    String selectPermsByMenuId(Integer menuId);
 }
