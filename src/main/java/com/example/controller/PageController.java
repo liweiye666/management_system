@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 
 @Controller
-@RequestMapping("/page")
 public class PageController {
 
     //用户管理界面跳转

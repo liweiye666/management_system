@@ -4,6 +4,8 @@ import com.example.entity.Dept;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface DeptMapper {
@@ -18,4 +20,6 @@ public interface DeptMapper {
     int updateByPrimaryKeySelective(Dept record);
 
     int updateByPrimaryKey(Dept record);
+
+    List<Dept> selectAllDept();
 }

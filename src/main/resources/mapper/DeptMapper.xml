@@ -90,4 +90,7 @@
       del_flag = #{delFlag,jdbcType=CHAR}
     where dept_id = #{deptId,jdbcType=INTEGER}
   </update>
+  <select id="selectAllDept" resultMap="BaseResultMap">
+        select * from tbl_dept
+  </select>
 </mapper>
