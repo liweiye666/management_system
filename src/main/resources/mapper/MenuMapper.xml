@@ -136,4 +136,8 @@
       icon = #{icon,jdbcType=VARCHAR}
     where menu_id = #{menuId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectPermsByMenuId" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select perms from tbl_menu where menu_id = #{menuId,jdbcType=INTEGER}
+  </select>
 </mapper>

@@ -1,6 +1,6 @@
 package com.example.entity;
 
-public class UserRoleKey {
+public class UserRole {
     private Integer userId;
 
     private Integer roleId;

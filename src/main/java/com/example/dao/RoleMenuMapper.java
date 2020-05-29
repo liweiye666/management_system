@@ -1,15 +1,19 @@
 package com.example.dao;
 
-import com.example.entity.RoleMenuKey;
+import com.example.entity.RoleMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Mapper
 @Repository
 public interface RoleMenuMapper {
-    int deleteByPrimaryKey(RoleMenuKey key);
+    int deleteByPrimaryKey(RoleMenu key);
 
-    int insert(RoleMenuKey record);
+    int insert(RoleMenu record);
 
-    int insertSelective(RoleMenuKey record);
+    int insertSelective(RoleMenu record);
+
+    List<Integer> selectMenuIdByRoleId(Integer roleId);
 }

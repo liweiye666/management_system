@@ -1,6 +1,6 @@
 package com.example.entity;
 
-public class RoleMenuKey {
+public class RoleMenu {
     private Integer roleId;
 
     private Integer menuId;

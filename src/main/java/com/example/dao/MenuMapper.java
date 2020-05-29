@@ -17,9 +17,9 @@ public interface MenuMapper {
 
     Menu selectByPrimaryKey(Integer menuId);
 
-    
-
     int updateByPrimaryKeySelective(Menu record);
 
     int updateByPrimaryKey(Menu record);
+
+    String selectPermsByMenuId(Integer menuId);
 }

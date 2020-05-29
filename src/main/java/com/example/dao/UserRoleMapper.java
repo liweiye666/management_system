@@ -1,15 +1,17 @@
 package com.example.dao;
 
-import com.example.entity.UserRoleKey;
+import com.example.entity.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
 public interface UserRoleMapper {
-    int deleteByPrimaryKey(UserRoleKey key);
+    int deleteByPrimaryKey(UserRole key);
 
-    int insert(UserRoleKey record);
+    int insert(UserRole record);
 
-    int insertSelective(UserRoleKey record);
+    int insertSelective(UserRole record);
+
+    Integer selectRoleIdByUserId(Integer userId);
 }
