@@ -2,6 +2,8 @@ package com.example.dao;
 
 import com.example.entity.Menu;
 
+import java.util.List;
+
 public interface MenuMapper {
     int deleteByPrimaryKey(Integer menuId);
 
@@ -10,6 +12,8 @@ public interface MenuMapper {
     int insertSelective(Menu record);
 
     Menu selectByPrimaryKey(Integer menuId);
+
+    
 
     int updateByPrimaryKeySelective(Menu record);
 
