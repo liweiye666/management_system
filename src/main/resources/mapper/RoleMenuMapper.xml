@@ -33,4 +33,8 @@
       </if>
     </trim>
   </insert>
+
+  <select id="selectMenuIdByRoleId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    select menu_id from tbl_role_menu where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
 </mapper>

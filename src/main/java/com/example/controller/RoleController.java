@@ -1,9 +1,9 @@
 package com.example.controller;
 
 import com.example.biz.RoleBiz;
+import com.example.biz.RoleMenuBiz;
 import com.example.biz.UserRoleBiz;
 import com.example.entity.Role;
-import com.example.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,19 +25,20 @@ public class RoleController {
     @Autowired
     private UserRoleBiz userRoleBizImpl;
 
+    @Autowired
+    private RoleMenuBiz roleMenuBizImpl;
+
     @RequestMapping("/testRole")
     public String testRole() {
 
-        List<UserRole> list = userRoleBizImpl.selectByUserId(2);
-        if (list == null) {
-            System.out.println("list is null");
-        }
-        else {
-            System.out.println("list not null");
-            System.out.println(list.size());
-            UserRole userRole = list.get(0);
-            System.out.println(userRole);
-        }
+        int rid;
+        rid = userRoleBizImpl.selectRoleIdByUserId(2);
+        System.out.println("rid" + rid);
+
+
+        List<Integer> list = roleMenuBizImpl.selectMenuIdByRoleId(rid);
+        System.out.println("list_m:" + list.size());
+        System.out.println("mid2:" + list.get(1));
 
         Role role = roleBizImpl.selectByPrimaryKey(1);
         String roleName = role.getRoleName();
