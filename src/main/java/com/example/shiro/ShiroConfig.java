@@ -23,6 +23,7 @@ public class ShiroConfig {
      * <bean id="" class=""></bean>
      * @return
      */
+    @Bean
     public ShiroRealm shiroRealm() {
         ShiroRealm shiroRealm = new ShiroRealm();
         return shiroRealm;

@@ -1,9 +1,6 @@
 package com.example.controller;
 
 import com.example.biz.MenuBiz;
-import com.example.biz.RoleBiz;
-import com.example.biz.RoleMenuBiz;
-import com.example.biz.UserRoleBiz;
 import com.example.entity.MsTree;
 import com.example.entity.Role;
 import org.apache.shiro.SecurityUtils;
@@ -16,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -41,11 +37,9 @@ public class LoginController {
     @Autowired
     private MenuBiz menuBizImpl;
 
-    @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(String loginName, String password, Model model) {
         //登录验证
-        System.out.println(loginName + "-----" + password);
         //获取shiro的主体
         Subject subject = SecurityUtils.getSubject();
         //构建用户登录令牌

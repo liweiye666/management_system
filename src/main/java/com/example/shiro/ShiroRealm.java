@@ -4,12 +4,10 @@ import com.example.biz.MenuBiz;
 import com.example.biz.RoleMenuBiz;
 import com.example.biz.UserBiz;
 import com.example.biz.UserRoleBiz;
-import com.example.biz.impl.UserBizImpl;
 import com.example.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -73,16 +71,13 @@ public class ShiroRealm extends AuthorizingRealm {
      * @throws AuthenticationException
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("认证开始");
-
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         //取出令牌信息
         UsernamePasswordToken usernamePasswordToken =
-                (UsernamePasswordToken) token;
+                (UsernamePasswordToken) authenticationToken;
 
         //登录认证分两个步骤，步骤一：查询用户是否存在
         String loginName = usernamePasswordToken.getUsername();
-        System.out.println("shiro:" + loginName);
         User user = userBizImpl.selectByLoginName(loginName);
         if (user == null) {
             return null;

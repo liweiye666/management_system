@@ -25,9 +25,9 @@
     from tbl_user
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <select id="selectUserByLoginName" resultType="com.example.entity.User">
-        select * from tbl_user where login_name=#{login_name,jdbcType=VARCHAR}
-   </select>
+  <select id="selectByLoginName" parameterType="java.lang.String" resultType="com.example.entity.User">
+    select * from tbl_user where login_name = #{loginName,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tbl_user
     where user_id = #{userId,jdbcType=INTEGER}
