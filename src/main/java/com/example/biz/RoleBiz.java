@@ -1,6 +1,8 @@
 package com.example.biz;
 
+import com.example.entity.Dept;
 import com.example.entity.Role;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @Project: management_system
@@ -11,4 +13,5 @@ import com.example.entity.Role;
 public interface RoleBiz {
 
     Role selectByPrimaryKey(Integer roleId);
+    PageInfo<Role> selectAllDept(int page, int limit);
 }
