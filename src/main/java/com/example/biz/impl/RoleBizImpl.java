@@ -60,4 +60,32 @@ public class RoleBizImpl implements RoleBiz {
     public int delRoleByID(List<Integer> ids) {
         return roleMapper.delRoleByID(ids);
     }
+
+    @Override
+    public Object updateByPrimaryKey(Role record) {
+        int i = roleMapper.updateByPrimaryKey(record);
+        Map map = new HashMap<>();
+        if(i>0){
+            map.put("code", MyConstants.successCode);
+            map.put("message",MyConstants.editSuccessMsg);
+        }else {
+            map.put("code",MyConstants.failCode);
+            map.put("message",MyConstants.editFailMsg);
+        }
+        return map;
+    }
+
+    @Override
+    public Object deleteByPrimaryKey(Integer roleId) {
+        int i = roleMapper.deleteByPrimaryKey(roleId);
+        Map map = new HashMap<>();
+        if(i>0){
+            map.put("code", MyConstants.successCode);
+            map.put("message",MyConstants.delSuccessMsg);
+        }else {
+            map.put("code",MyConstants.failCode);
+            map.put("message",MyConstants.delFailMsg);
+        }
+        return map;
+    }
 }

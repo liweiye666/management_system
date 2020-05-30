@@ -18,4 +18,6 @@ public interface RoleBiz {
     PageInfo<Role> selectAllDept(int page, int limit);
     Object insert(Role record);
     int delRoleByID(List<Integer> ids);
+    Object updateByPrimaryKey(Role record);
+    Object deleteByPrimaryKey(Integer deptId);
 }

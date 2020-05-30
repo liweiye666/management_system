@@ -43,13 +43,20 @@
     <div class="layui-form-item">
         <label class="layui-form-label">角色名称</label>
         <div class="layui-input-block">
+            <input type="text" id="roleId" name="roleId" required  lay-verify="required"
+                   readonly="readonly" placeholder="角色ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色名称</label>
+        <div class="layui-input-block">
             <input type="text" id="roleName" name="roleName" required  lay-verify="required" placeholder="角色名称" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">权限字符</label>
         <div class="layui-input-block">
-            <input type="text" name="roleKey" required  lay-verify="required" placeholder="请输入权限字符" autocomplete="off" class="layui-input">
+            <input type="text" id="roleKey" name="roleKey" required  lay-verify="required" placeholder="请输入权限字符" autocomplete="off" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -190,11 +197,11 @@
         });
         return false;
     });
-    form.on('submit(editDeptForm)', function(data){
+    form.on('submit(editRoleForm)', function(data){
         //数据的提交，ajax方式
         console.log(data.field)
         $.ajax({
-            url: '/dept/editDept',//地址
+            url: '/role/editRole',//地址
             dataType: 'json',//数据类型
             type: 'POST',//类型
             data:data.field,
@@ -229,9 +236,9 @@
                 //向服务端发送删除指令
                 $.ajax({
                     type: 'get',
-                    url: '/dept/deleteDept',
+                    url: '/role/deleteRole',
                     data: {
-                        deptId: data.deptId,  //此处是根据id查询此id是否被删除，故将id传向后端
+                        roleId: data.roleId,  //此处是根据id查询此id是否被删除，故将id传向后端
                     },
                     contentType: 'application/json',
                     success: function (data) {
@@ -248,15 +255,16 @@
             layer.msg('编辑操作');
             //填充修改用户的表单项
             console.log(data);
-            $("#deptName").val(data.deptName);
-            $("#deptId").val(data.deptId);
+            $("#roleName").val(data.roleName);
+            $("#roleId").val(data.roleId);
+            $("#roleKey").val(data.roleKey);
             layer.open(
                 {
                     type: 1,
-                    content: $("#deptEditForm"),
+                    content: $("#roleEditForm"),
                     icon: 1,
-                    title:"修改部门",
-                    area: ['450px', '310px']
+                    title:"修改角色",
+                    area: ['450px', '330px']
                 }
             )
         }

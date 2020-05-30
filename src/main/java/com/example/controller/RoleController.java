@@ -71,4 +71,21 @@ public class RoleController {
         }
         return map;
     }
+
+    //编辑角色信息
+    @RequestMapping(value = "/editRole",method = RequestMethod.POST)
+    @ResponseBody
+    public Object editDept(Role record){
+        System.out.println(record);
+        Map map = (Map) roleBizImpl.updateByPrimaryKey(record);
+        return map;
+    }
+
+    //删除角色
+    @RequestMapping(value = "/deleteRole",method = RequestMethod.GET)
+    @ResponseBody
+    public Object deleteDept(Integer roleId){
+        Map map = (Map) roleBizImpl.deleteByPrimaryKey(roleId);
+        return map;
+    }
 }
