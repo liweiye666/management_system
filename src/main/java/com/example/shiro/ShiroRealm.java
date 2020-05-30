@@ -44,8 +44,6 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        System.out.println("授权开始");
-
         SimpleAuthorizationInfo simpleAuthorizationInfo =
                 new SimpleAuthorizationInfo();
 

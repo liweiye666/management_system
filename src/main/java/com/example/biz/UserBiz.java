@@ -15,4 +15,19 @@ public interface UserBiz {
     User selectByPrimaryKey(Integer userId);
 
     User selectByLoginName(String loginName);
+
+    List<User> selectAllUser();
+
+    int insert(User record);
+
+    int insertSelective(User record);
+
+    int deleteByPrimaryKey(Integer userId);
+
+    int delUserByID(List<String> ids);
+
+    int updateByPrimaryKey(User record);
+
+    int updateByPrimaryKeySelective(User record);
+
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -30,7 +31,7 @@
             <li class="layui-nav-item" >
                 <a href="javascript:;">
                     <img th:src="@{/img/dog.jpg}" class="layui-nav-img">
-<!--                    <span th:text="${loginName}"></span>-->
+                    <!--<span th:text="${loginName}"></span>-->
                     xxx
                 </a>
                 <dl class="layui-nav-child">
@@ -38,7 +39,7 @@
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退出</a></li>
+            <li class="layui-nav-item"><a href="/logout">退出</a></li>
         </ul>
     </div>
 
@@ -85,9 +86,10 @@
         var element = layui.element;
         var $ = layui.jquery;
 
-        $(document).ready(function(){
-            $("dd>a").click(function (e) {
-                e.preventDefault();
+        $(document).ready(function(){//$后面跟的function，是页面加载时就要执行的方法
+            $("dd>a").click(function (e) {//dd>a，后代选择器，只要dd标签下面的a标签
+                e.preventDefault();//阻断超链接的跳转事件
+                //点击a标签的时候，取得超链接a中的href属性，值赋给iframe的src属性
                 $("#iframeMain").attr("src",$(this).attr("href"));
             });
         });

@@ -29,4 +29,39 @@ public class UserBizImpl implements UserBiz {
     public User selectByLoginName(String loginName) {
         return userMapper.selectByLoginName(loginName);
     }
+
+    @Override
+    public List<User> selectAllUser() {
+        return userMapper.selectAllUser();
+    }
+
+    @Override
+    public int insert(User record) {
+        return userMapper.insert(record);
+    }
+
+    @Override
+    public int insertSelective(User record) {
+        return userMapper.insertSelective(record);
+    }
+
+    @Override
+    public int deleteByPrimaryKey(Integer userId) {
+        return userMapper.deleteByPrimaryKey(userId);
+    }
+
+    @Override
+    public int delUserByID(List<String> ids) {
+        return userMapper.delUserByID(ids);
+    }
+
+    @Override
+    public int updateByPrimaryKey(User record) {
+        return userMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public int updateByPrimaryKeySelective(User record) {
+        return userMapper.updateByPrimaryKeySelective(record);
+    }
 }

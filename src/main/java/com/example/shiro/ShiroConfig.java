@@ -1,5 +1,8 @@
 package com.example.shiro;
 
+import com.example.util.MyConstants;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
+import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +29,7 @@ public class ShiroConfig {
     @Bean
     public ShiroRealm shiroRealm() {
         ShiroRealm shiroRealm = new ShiroRealm();
+        //shiroRealm.setCredentialsMatcher(credentialsMatcher());
         return shiroRealm;
     }
 
@@ -60,7 +64,15 @@ public class ShiroConfig {
         map.put("/toLogin", "anon");
         map.put("/login", "anon");
         //添加到达页面需要的权限
-        map.put("/toRole", "perms[system:role:view]");
+        //User相关
+        map.put("/toUser", "perms[/systemUserView]");
+        map.put("/user/selectAllUser", "perms[/systemUserView]");
+        map.put("/user/insertUser", "perms[/systemUserView]");
+        map.put("/user/updateUser", "perms[/systemUserView]");
+        map.put("/user/deleteUser", "perms[/systemUserView]");
+        map.put("/user/selectByLoginName", "perms[/systemUserView]");
+        //Role相关
+        map.put("/toRole", "perms[/systemRoleView]");
         //过滤的页面请求(需要授权)
         map.put("/*", "authc");
 
@@ -70,5 +82,19 @@ public class ShiroConfig {
         //指定未授权提示页面
         shiroFilterFactoryBean.setUnauthorizedUrl("/toUnau");
         return shiroFilterFactoryBean;
+    }
+
+    /**
+     * 实例化密码比较器
+     */
+    @Bean
+    public CredentialsMatcher credentialsMatcher() {
+        HashedCredentialsMatcher credentialsMatcher =
+                new HashedCredentialsMatcher();
+        //使用MD5加密
+        credentialsMatcher.setHashAlgorithmName(MyConstants.algorithmName);
+        //加密1000次
+        credentialsMatcher.setHashIterations(MyConstants.hashIterations);
+        return credentialsMatcher;
     }
 }

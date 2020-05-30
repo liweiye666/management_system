@@ -28,9 +28,19 @@
   <select id="selectByLoginName" parameterType="java.lang.String" resultType="com.example.entity.User">
     select * from tbl_user where login_name = #{loginName,jdbcType=VARCHAR}
   </select>
+  <select id="selectAllUser" resultType="com.example.entity.User">
+    select * from tbl_user
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from tbl_user
     where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <delete id="delUserByID">
+    delete from tbl_user
+    where user_id in
+    <foreach collection="ids" item="item" open="(" close=")" separator=",">
+      #{item}
+    </foreach>
   </delete>
   <insert id="insert" parameterType="com.example.entity.User">
     insert into tbl_user (user_id, dept_id, login_name, 
