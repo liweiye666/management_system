@@ -8,7 +8,6 @@ import com.example.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
@@ -73,15 +72,12 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        System.out.println("认证开始");
-
         //取出令牌信息
         UsernamePasswordToken usernamePasswordToken =
                 (UsernamePasswordToken) authenticationToken;
 
         //登录认证分两个步骤，步骤一：查询用户是否存在
         String loginName = usernamePasswordToken.getUsername();
-        System.out.println("shiro:" + loginName);
         User user = userBizImpl.selectByLoginName(loginName);
         if (user == null) {
             return null;
