@@ -1,7 +1,11 @@
 package com.example.controller;
 
 import com.example.biz.MenuBiz;
+import com.example.biz.RoleBiz;
+import com.example.biz.RoleMenuBiz;
+import com.example.biz.UserRoleBiz;
 import com.example.entity.MsTree;
+import com.example.entity.Role;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -23,6 +27,15 @@ import java.util.List;
  */
 @Controller
 public class LoginController {
+
+    @Autowired
+    private RoleBiz roleBizImpl;
+
+    @Autowired
+    private UserRoleBiz userRoleBizImpl;
+
+    @Autowired
+    private RoleMenuBiz roleMenuBizImpl;
 
     @Autowired
     private MenuBiz menuBizImpl;
@@ -55,6 +68,7 @@ public class LoginController {
         return "/menu/index";
     }
 
+
     /**
      * 注销
      */
@@ -64,5 +78,4 @@ public class LoginController {
         subject.logout();
         return "/login";
     }
-
 }

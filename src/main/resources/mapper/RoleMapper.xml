@@ -23,6 +23,15 @@
     delete from tbl_role
     where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
+
+  <delete id="delRoleByID"  parameterType="java.util.List">
+    delete from tbl_role
+    where role_id in
+    <foreach collection="ids" item="xxx" open="(" close=")" separator=",">
+      #{xxx}
+    </foreach>
+  </delete>
+
   <insert id="insert" parameterType="com.example.entity.Role">
     insert into tbl_role (role_id, role_name, role_key, 
       role_sort, status, del_flag
@@ -104,4 +113,7 @@
       del_flag = #{delFlag,jdbcType=CHAR}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
+  <select id="selectAllRole" resultMap="BaseResultMap">
+        select  * from tbl_role
+  </select>
 </mapper>
