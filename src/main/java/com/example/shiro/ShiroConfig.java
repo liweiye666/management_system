@@ -60,8 +60,7 @@ public class ShiroConfig {
         map.put("/toLogin", "anon");
         map.put("/login", "anon");
         //添加到达页面需要的权限
-        map.put("/toInsertUser", "perms[/toInsertUser]");
-        map.put("/toUpdateUser", "perms[/toUpdateUser]");
+        map.put("/toRole", "perms[system:role:view]");
         //过滤的页面请求(需要授权)
         map.put("/*", "authc");
 
