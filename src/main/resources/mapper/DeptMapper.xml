@@ -21,6 +21,14 @@
     delete from tbl_dept
     where dept_id = #{deptId,jdbcType=INTEGER}
   </delete>
+
+  <delete id="delDeptByID"  parameterType="java.util.List">
+    delete from tbl_dept
+    where dept_id in
+    <foreach collection="ids" item="xxx" open="(" close=")" separator=",">
+        #{xxx}
+    </foreach>
+  </delete>
   <insert id="insert" parameterType="com.example.entity.Dept">
     insert into tbl_dept (dept_id, dept_name, order_num, 
       status, del_flag)

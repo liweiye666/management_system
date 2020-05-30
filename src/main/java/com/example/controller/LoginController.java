@@ -5,10 +5,13 @@ import com.example.biz.RoleBiz;
 import com.example.biz.RoleMenuBiz;
 import com.example.biz.UserRoleBiz;
 import com.example.entity.Role;
+import org.apache.catalina.security.SecurityUtil;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.security.auth.Subject;
 import java.util.List;
 
 /**
@@ -52,4 +55,13 @@ public class LoginController {
         return "/login";
     }
 
+    /**
+     * 注销
+     */
+//    @RequestMapping("/logout")
+//    public String logout(){
+//        Subject subject = SecurityUtils.getSubject();
+//        subject.logout();
+//        return "login";
+//    }
 }
