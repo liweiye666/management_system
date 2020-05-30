@@ -41,15 +41,4 @@ public class ShiroUtil {
         return simpleHash.toString();
     }
 
-    public static void main(String[] args) {
-        //MD5加密
-        String str = getCiphertext("I love you!");
-        System.out.println("MD5加密密文：" + str);
-
-        String source = "I love you!";
-        String salt = UUID.randomUUID().toString();
-        String encryption = encryptionBySalt(source, salt);
-        System.out.println("shiro加密后的密文：" + encryption);
-        System.out.println("shiro加密用的盐：" + salt);
-    }
 }
