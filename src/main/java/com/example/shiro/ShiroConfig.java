@@ -56,10 +56,11 @@ public class ShiroConfig {
         //LinkedHashMap是一个有序的HashMap，是一个链条
         Map<String, String> map = new LinkedHashMap<>();
         //放行的页面请求
-        map.put("/toLogin", "anon");
-        map.put("/login", "anon");
+        map.put("/toShiroLogin", "anon");
+        map.put("/toShiroPage", "anon");
         //添加到达页面需要的权限
-
+        map.put("/toInsertUser", "perms[/toInsertUser]");
+        map.put("/toUpdateUser", "perms[/toUpdateUser]");
         //过滤的页面请求(需要授权)
         map.put("/*", "authc");
 
