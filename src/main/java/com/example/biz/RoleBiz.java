@@ -4,6 +4,8 @@ import com.example.entity.Dept;
 import com.example.entity.Role;
 import com.github.pagehelper.PageInfo;
 
+import java.util.List;
+
 /**
  * @Project: management_system
  * @Package: com.example.biz
@@ -14,4 +16,6 @@ public interface RoleBiz {
 
     Role selectByPrimaryKey(Integer roleId);
     PageInfo<Role> selectAllDept(int page, int limit);
+    Object insert(Role record);
+    int delRoleByID(List<Integer> ids);
 }

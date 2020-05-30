@@ -4,12 +4,15 @@ import com.example.biz.RoleBiz;
 import com.example.dao.RoleMapper;
 import com.example.entity.Dept;
 import com.example.entity.Role;
+import com.example.util.MyConstants;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Project: management_system
@@ -37,5 +40,24 @@ public class RoleBizImpl implements RoleBiz {
         //结束分页,pageInfo封装了分页之后所有数据
         PageInfo<Role> pageInfo = new PageInfo(myUserInfos);
         return pageInfo;
+    }
+
+    @Override
+    public Object insert(Role record) {
+        int i = roleMapper.insert(record);
+        Map map = new HashMap<>();
+        if(i>0){
+            map.put("code", MyConstants.successCode);
+            map.put("message",MyConstants.saveSuccessMsg);
+        }else {
+            map.put("code",MyConstants.failCode);
+            map.put("message",MyConstants.saveFailMsg);
+        }
+        return map;
+    }
+
+    @Override
+    public int delRoleByID(List<Integer> ids) {
+        return roleMapper.delRoleByID(ids);
     }
 }

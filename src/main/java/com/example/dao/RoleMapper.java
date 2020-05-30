@@ -3,6 +3,7 @@ package com.example.dao;
 import com.example.entity.Dept;
 import com.example.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface RoleMapper {
     int updateByPrimaryKey(Role record);
 
     List<Role> selectAllRole();
+
+    int delRoleByID( @Param("ids") List<Integer> ids);
 }

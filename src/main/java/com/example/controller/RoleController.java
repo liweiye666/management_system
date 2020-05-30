@@ -1,14 +1,22 @@
 package com.example.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.example.biz.RoleBiz;
 import com.example.entity.Dept;
 import com.example.entity.MsJson;
 import com.example.entity.Role;
+import com.example.util.MyConstants;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Project: management_system
@@ -23,7 +31,7 @@ public class RoleController {
     @Autowired
     private RoleBiz roleBizImpl;
 
-    //查询部门所有数据
+    //查询角色所有数据
     @RequestMapping("/selectAll")
     @ResponseBody
     public MsJson selectAll(int page, int limit){
@@ -36,5 +44,31 @@ public class RoleController {
         json.setCount(pageInfo.getTotal());
         json.setData(pageInfo.getList());
         return json;
+    }
+
+    //添加角色
+    @RequestMapping(value = "/addRole",method = RequestMethod.POST)
+    @ResponseBody
+    public Object addRole(Role role){
+       Map map = (Map)roleBizImpl.insert(role);
+       return map;
+    }
+
+    //批量删除角色
+    @RequestMapping(value = "/delRole",method = RequestMethod.POST)
+    @ResponseBody
+    public Object delRole( @RequestParam(value = "ids") String  ids){
+        //将json字符串转换成list对象
+        List<Integer> list= (List<Integer>) JSON.parse(ids);
+        int i = roleBizImpl.delRoleByID(list);
+        Map map= new HashMap<>();
+        if(i>0){
+            map.put("code", MyConstants.successCode);
+            map.put("message",MyConstants.delSuccessMsg);
+        }else {
+            map.put("code",MyConstants.failCode);
+            map.put("message",MyConstants.delFailMsg);
+        }
+        return map;
     }
 }
