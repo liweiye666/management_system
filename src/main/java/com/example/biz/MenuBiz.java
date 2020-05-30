@@ -1,5 +1,7 @@
 package com.example.biz;
 
+import com.example.entity.Dept;
+import com.example.entity.Menu;
 import com.example.entity.MsTree;
 
 import java.util.List;
@@ -17,4 +19,8 @@ public interface MenuBiz {
     List<MsTree> selectAllMenu();
 
     List<MsTree> selectMenuByUserLoginName(String loginName);
+
+    List<Menu> selectAll();
+
+    Object insert(Menu record);
 }

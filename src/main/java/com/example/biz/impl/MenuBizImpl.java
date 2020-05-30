@@ -5,10 +5,13 @@ import com.example.biz.MenuBiz;
 import com.example.dao.MenuMapper;
 import com.example.entity.Menu;
 import com.example.entity.MsTree;
+import com.example.util.MyConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Project: management_system
@@ -43,6 +46,25 @@ public class MenuBizImpl implements MenuBiz {
         List<Menu> menuList = menuMapper.selectMenuByUserLoginName(loginName);
         //组装成tree格式
         return TreeUtils.getChildPerms(menuList, 0);
+    }
+
+    @Override
+    public List<Menu> selectAll() {
+        return menuMapper.selectAllMenu();
+    }
+
+    @Override
+    public Object insert(Menu record) {
+        int i = menuMapper.insert(record);
+        Map map = new HashMap<>();
+        if(i>0){
+            map.put("code", MyConstants.successCode);
+            map.put("message",MyConstants.saveSuccessMsg);
+        }else {
+            map.put("code",MyConstants.failCode);
+            map.put("message",MyConstants.saveFailMsg);
+        }
+        return map;
     }
 
 
