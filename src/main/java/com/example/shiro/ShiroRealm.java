@@ -1,6 +1,9 @@
 package com.example.shiro;
 
+import com.example.biz.MenuBiz;
+import com.example.biz.RoleMenuBiz;
 import com.example.biz.UserBiz;
+import com.example.biz.UserRoleBiz;
 import com.example.entity.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -13,7 +16,6 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -26,6 +28,15 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private UserBiz userBizImpl;
+
+    @Autowired
+    private UserRoleBiz userRoleBizImpl;
+
+    @Autowired
+    private RoleMenuBiz roleMenuBizImpl;
+
+    @Autowired
+    private MenuBiz menuBizImpl;
 
     /**
      * shiro安全框架的授权
@@ -42,10 +53,15 @@ public class ShiroRealm extends AuthorizingRealm {
         //获取用户信息
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         //权限字符串从数据库中获取
-        String perms = user.getAvatar();
-        String perms2 = user.getEmail();
-        simpleAuthorizationInfo.addStringPermission(perms);
-        simpleAuthorizationInfo.addStringPermission(perms2);
+        int roleId = userRoleBizImpl.selectRoleIdByUserId(user.getUserId());//从数据库中获取角色ID
+        List<Integer> menuIdList = roleMenuBizImpl.selectMenuIdByRoleId(roleId);//从数据库中获取菜单ID
+        List<String> permsList = new ArrayList<>();
+        for (int menuId : menuIdList) {
+            permsList.add(menuBizImpl.selectPermsByMenuId(menuId));//将每个菜单ID对应的权限字符串从数据库中搜索出来
+        }
+        for (String perms : permsList) {
+            simpleAuthorizationInfo.addStringPermission(perms);//将所有权限字符串添加到用户权限中
+        }
         return simpleAuthorizationInfo;
     }
 
@@ -75,10 +91,10 @@ public class ShiroRealm extends AuthorizingRealm {
         String salt = user.getSalt();
         ByteSource byteSource = ByteSource.Util.bytes(salt);
         /**
-         * @param principal 实体，例如这里就是User对象
-         * @param credentials 数据库中的密码
-         * @param credentialsSalt 创建密码密文时加密用的盐(从数据库中获取)
-         * @param realmName 当前realm的name，用getRealm()方法获取，getRealm()方法在这个类的曾祖父类中，已被继承
+         * Object principal 实体，例如这里就是User对象
+         * Object credentials 数据库中的密码
+         * ByteSource credentialsSalt 创建密码密文时加密用的盐(从数据库中获取)
+         * String realmName 当前realm的name，用getRealm()方法获取，getRealm()方法在这个类的曾祖父类中，已被继承
          */
         SimpleAuthenticationInfo simpleAuthenticationInfo =
                 new SimpleAuthenticationInfo(user, password, byteSource, getName());

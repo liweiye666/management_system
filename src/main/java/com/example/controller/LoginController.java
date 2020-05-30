@@ -4,14 +4,20 @@ import com.example.biz.MenuBiz;
 import com.example.biz.RoleBiz;
 import com.example.biz.RoleMenuBiz;
 import com.example.biz.UserRoleBiz;
+import com.example.entity.MsTree;
 import com.example.entity.Role;
-import org.apache.catalina.security.SecurityUtil;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.security.auth.Subject;
 import java.util.List;
 
 /**
@@ -35,33 +41,44 @@ public class LoginController {
     @Autowired
     private MenuBiz menuBizImpl;
 
-    @RequestMapping("/testRole")
-    public String testRole() {
-        int rid;
-        rid = userRoleBizImpl.selectRoleIdByUserId(2);
-        System.out.println("rid" + rid);
+    @ResponseBody
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public String login(String loginName, String password, Model model) {
+        //登录验证
+        System.out.println(loginName + "-----" + password);
+        //获取shiro的主体
+        Subject subject = SecurityUtils.getSubject();
+        //构建用户登录令牌
+        UsernamePasswordToken usernamePasswordToken =
+                new UsernamePasswordToken(loginName, password);
 
+        try {
+            subject.login(usernamePasswordToken);
+        } catch (UnknownAccountException e) {
+            model.addAttribute("message", "用户名错误");
+            return "/login";
+        }
+        catch (IncorrectCredentialsException e) {
+            model.addAttribute("message", "密码错误");
+            return "/login";
+        }
 
-        List<Integer> list = roleMenuBizImpl.selectMenuIdByRoleId(rid);
-        System.out.println("list_m:" + list.size());
-        System.out.println("mid2:" + list.get(1));
-
-        for (int i = 0; i<list.size(); i++)
-            System.out.println(menuBizImpl.selectPermsByMenuId(list.get(i)));
-
-        Role role = roleBizImpl.selectByPrimaryKey(1);
-        String roleName = role.getRoleName();
-        System.out.println(roleName);
-        return "/login";
+        //将要去index页面之前，保存部分数据到model
+        model.addAttribute("loginName", loginName);
+        //放入所有的菜单，根据当前登录的用户
+        List<MsTree> menuList = menuBizImpl.selectMenuByUserLoginName(loginName);
+        model.addAttribute("menus", menuList);
+        return "/index";
     }
+
 
     /**
      * 注销
      */
-//    @RequestMapping("/logout")
-//    public String logout(){
-//        Subject subject = SecurityUtils.getSubject();
-//        subject.logout();
-//        return "login";
-//    }
+    @RequestMapping("/logout")
+    public String logout(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return "/login";
+    }
 }

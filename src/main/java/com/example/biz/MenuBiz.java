@@ -1,5 +1,9 @@
 package com.example.biz;
 
+import com.example.entity.MsTree;
+
+import java.util.List;
+
 /**
  * @Project: management_system
  * @Package: com.example.biz
@@ -9,4 +13,8 @@ package com.example.biz;
 public interface MenuBiz {
 
     String selectPermsByMenuId(Integer menuId);
+
+    List<MsTree> selectAllMenu();
+
+    List<MsTree> selectMenuByUserLoginName(String loginName);
 }

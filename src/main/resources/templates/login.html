@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="col-sm-5" id="loginForm">
-            <form id="signupForm" action="login" method="post" onsubmit="return checkNull()">
+            <form id="signupForm" action="/login" method="post" onsubmit="return checkNull()">
                 <h4 class="no-margins">登录：</h4>
                 <span th:text="${message}" style="color: red"></span>
                 <p class="m-t-md"></p>
@@ -66,8 +66,6 @@
         }
         return true;
     }
-
-
 </script>
 
 </body>

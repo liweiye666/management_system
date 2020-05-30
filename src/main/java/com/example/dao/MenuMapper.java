@@ -22,4 +22,8 @@ public interface MenuMapper {
     int updateByPrimaryKey(Menu record);
 
     String selectPermsByMenuId(Integer menuId);
+
+    List<Menu> selectAllMenu();
+
+    List<Menu> selectMenuByUserLoginName(String loginName);
 }

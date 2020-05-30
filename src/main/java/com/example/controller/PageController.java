@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class PageController {
 
+    //登录页面跳转
+    @RequestMapping(value = "/toLogin")
+    public String toLogin() {
+        return "/login";
+    }
+
     //用户管理界面跳转
     @RequestMapping("/toUser")
     public String toUser(){
@@ -35,5 +41,11 @@ public class PageController {
     @RequestMapping("/toDept")
     public String toDept(){
         return "menu/deptdb.html";
+    }
+
+    //登录页面跳转
+    @RequestMapping(value = "/toUnau")
+    public String toUnau() {
+        return "/unau";
     }
 }
