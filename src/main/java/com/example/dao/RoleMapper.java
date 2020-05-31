@@ -26,4 +26,6 @@ public interface RoleMapper {
     List<Role> selectAllRole();
 
     int delRoleByID( @Param("ids") List<Integer> ids);
+
+    List<Role> selectAll();
 }

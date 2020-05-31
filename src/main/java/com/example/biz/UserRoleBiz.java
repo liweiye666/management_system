@@ -1,5 +1,7 @@
 package com.example.biz;
 
+import com.example.entity.UserRole;
+
 /**
  * @Project: management_system
  * @Package: com.example.biz
@@ -9,4 +11,6 @@ package com.example.biz;
 public interface UserRoleBiz {
 
     Integer selectRoleIdByUserId(Integer userId);
+
+    int insert(UserRole record);
 }

@@ -9,15 +9,19 @@
     </head>
     <body>
         <table id="demo" lay-filter="test"></table>
+
         <script type="text/html" id="myToolBar">
             <button type="button" class="layui-btn layui-btn-sm" lay-event="saveUser"><i class="layui-icon layui-icon-addition"></i>添加</button>
             <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delUser"><i class="layui-icon layui-icon-delete"></i>删除</button>
         </script>
+
         <script type="text/html" id="barDemo">
             <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
             <a class="layui-btn  layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="setRole">设置角色</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="resetPassword">重置密码</a>
         </script>
+
         <form class="layui-form" action="" id="userSaveForm" style="display: none">
             <div class="layui-form-item">
                 <label class="layui-form-label">登录名</label>
@@ -67,10 +71,10 @@
                     <button type="reset"  	class="layui-btn layui-btn-warm">重置</button>
                 </div>
             </div>
-
         </form>
+
         <form class="layui-form" action="" id="userEditForm" style="display: none">
-            <input type="hidden" id="userId" name="userId" >
+            <input type="hidden" id="userId" name="userId">
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-block">
@@ -108,9 +112,72 @@
                     <button type="reset"  	class="layui-btn layui-btn-warm">重置</button>
                 </div>
             </div>
+        </form>
 
+        <form class="layui-form" action="" id="resetPasswordForm" style="display: none">
+            <input type="hidden" id="rpUserId" name="rpUserId">
+            <div class="layui-form-item">
+                <label class="layui-form-label">原密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="oldPassword" name="oldPassword" required  lay-verify="required" placeholder="请输入原密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">新密码</label>
+                <div class="layui-input-block">
+                    <input type="password" id="newPassword" name="newPassword" required  lay-verify="required" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确  认</label>
+                <div class="layui-input-block">
+                    <input type="password" id="affirmNewPassword" name="affirmNewPassword" required  lay-verify="required" placeholder="再次确认新密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button"  	class="layui-btn layui-btn-normal" lay-submit lay-filter="resetPasswordForm">确认</button>
+                    <button type="reset"  	class="layui-btn layui-btn-warm">重置</button>
+                </div>
+            </div>
+        </form>
+
+        <form class="layui-form" action="" id="setRoleForm" style="display: none">
+            <input type="hidden" id="srUserId" name="srUserId">
+            <div class="layui-form-item">
+                <select name="roleList" id="roleList" lay-verify="">
+                    <option value="">请选择角色</option>
+                </select>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button"  	class="layui-btn layui-btn-normal" lay-submit lay-filter="setRoleForm">确认</button>
+                    <button type="reset"  	class="layui-btn layui-btn-warm">重置</button>
+                </div>
+            </div>
         </form>
     </body>
+    <script>
+        layui.use('form', function () {
+            $.ajax({
+                url: 'user/getRole',//地址
+                dataType: 'json',//数据类型
+                type: 'GET',//类型
+                //请求成功
+                success: function (result) {
+                    if(result.code==0){
+                        for (var i = 0; i < result.data.length; i++) {
+                            $("#roleList").append("<option value=\""+result.data[i].roleId+"\">"+result.data[i].roleName+"</option>");
+                        }
+                        layui.form.render("select");
+                    }else
+                    {
+                        layer.msg(result.message,{icon:5})
+                    }
+                }
+            });
+        })
+    </script>
     <script>
         var form=layui.form;
         var table=layui.table;
@@ -131,8 +198,8 @@
                     ,{field: 'userName', title: '真实姓名', width:120}
                     ,{field: 'email', title: '邮箱', width:180}
                     ,{field: 'phonenumber', title: '手机号', width:120}
-                    ,{field: 'status', title: '状态', width:100,templet:"#showstatus",sort: true}
-                    ,{ title: '操作', width:200, toolbar: '#barDemo'}
+                    ,{field: 'status', title: '状态', width:100, templet:"#showstatus", sort: true}
+                    ,{ title: '操作', width:300, toolbar: '#barDemo'}
                 ]]
         });
         //监听头工具栏事件
@@ -265,6 +332,69 @@
             });
             return false;
         });
+
+        form.on('submit(resetPasswordForm)', function(data){
+            console.log(data.field)
+            $.ajax({
+                url: 'user/resetPassword',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                data: {
+                    userId: data.field.rpUserId,
+                    newPassword: data.field.newPassword
+                },
+                //请求成功
+                success: function (result) {
+                    if(result.code==0){
+                        //关闭弹出层
+                        layer.closeAll();
+                        //显示修改密码成功消息
+                        layer.msg(result.message,{icon:1})
+                        //重新加载数据表格
+                        myTable.reload();
+                    }else
+                    {
+                        //关闭弹出层
+                        layer.closeAll();
+                        layer.msg(result.message,{icon:5})
+                    }
+                }
+            });
+            return false;
+        });
+
+        form.on('submit(setRoleForm)', function(data){
+            console.log(data.field);
+            var select = document.getElementById("roleList");
+            var value = select.options[select.selectedIndex].value;
+            $.ajax({
+                url: 'user/setRole',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                data: {
+                    userId: data.field.srUserId,
+                    roleId: value
+                },
+                //请求成功
+                success: function (result) {
+                    if(result.code==0){
+                        //关闭弹出层
+                        layer.closeAll();
+                        //显示修改密码成功消息
+                        layer.msg(result.message,{icon:1})
+                        //重新加载数据表格
+                        myTable.reload();
+                    }else
+                    {
+                        //关闭弹出层
+                        layer.closeAll();
+                        layer.msg(result.message,{icon:5})
+                    }
+                }
+            });
+            return false;
+        });
+
         //监听行工具事件
         table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             var data = obj.data //获得当前行数据
@@ -295,8 +425,33 @@
                         area: ['360px', '300px']
                     }
                 )
+            } else if(layEvent == 'resetPassword'){
+                layer.msg('重置密码');
+                console.log(data);
+                $("#rpUserId").val(data.userId);
+                layer.open(
+                    {
+                        type: 1,
+                        content: $("#resetPasswordForm"),
+                        icon: 1,
+                        title: "重置密码",
+                        area: ['360px', '300px']
+                    }
+                )
+            } else if(layEvent == 'setRole'){
+                layer.msg('设置角色');
+                console.log(data);
+                $("#srUserId").val(data.userId);
+                layer.open(
+                    {
+                        type: 1,
+                        content: $("#setRoleForm"),
+                        icon: 1,
+                        title: "设置密码",
+                        area: ['360px', '180px']
+                    }
+                )
             }
         });
-
     </script>
 </html>

@@ -1,15 +1,20 @@
 package com.example.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.example.biz.RoleBiz;
 import com.example.biz.UserBiz;
+import com.example.biz.UserRoleBiz;
 import com.example.entity.MsJson;
+import com.example.entity.Role;
 import com.example.entity.User;
+import com.example.entity.UserRole;
 import com.example.shiro.ShiroUtil;
 import com.example.util.MyConstants;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +35,12 @@ public class UserController {
 
     @Autowired
     private UserBiz userBizImpl;
+
+    @Autowired
+    private RoleBiz roleBizImpl;
+
+    @Autowired
+    private UserRoleBiz userRoleBizImpl;
 
     @RequestMapping("/selectAllUser")
     @ResponseBody
@@ -97,6 +108,54 @@ public class UserController {
         } else {
             map.put("code", MyConstants.failCode);
             map.put("message", MyConstants.delFailMsg);
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/resetPassword")
+    @ResponseBody
+    public Object resetPassword(int userId, String newPassword) {
+        String salt = UUID.randomUUID().toString();
+        String password = ShiroUtil.encryptionBySalt(salt, newPassword);
+        User user = new User();
+        user.setUserId(userId);
+        user.setPassword(password);
+        user.setSalt(salt);
+        int i = userBizImpl.updateByPrimaryKeySelective(user);
+        Map map = new HashMap<>();
+        if (i > 0) {
+            map.put("code", MyConstants.successCode);
+            map.put("message", MyConstants.editSuccessMsg);
+        } else {
+            map.put("code", MyConstants.failCode);
+            map.put("message", MyConstants.editFailMsg);
+        }
+        return map;
+    }
+
+    @RequestMapping(value = "/getRole")
+    @ResponseBody
+    public Object getRole() {
+        List<Role> roleList =  roleBizImpl.selectAll();
+        MsJson json = new MsJson();
+        json.setCode(0);
+        json.setMsg("角色下拉框");
+        json.setCount(roleList.size());
+        json.setData(roleList);
+        return json;
+    }
+
+    @RequestMapping(value = "/setRole")
+    @ResponseBody
+    public Object setRole(UserRole userRole) {
+        int i = userRoleBizImpl.insert(userRole);
+        Map map = new HashMap<>();
+        if (i > 0) {
+            map.put("code", MyConstants.successCode);
+            map.put("message", MyConstants.saveSuccessMsg);
+        } else {
+            map.put("code", MyConstants.failCode);
+            map.put("message", MyConstants.saveFailMsg);
         }
         return map;
     }

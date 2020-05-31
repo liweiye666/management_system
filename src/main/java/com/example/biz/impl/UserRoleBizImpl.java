@@ -2,6 +2,7 @@ package com.example.biz.impl;
 
 import com.example.biz.UserRoleBiz;
 import com.example.dao.UserRoleMapper;
+import com.example.entity.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,5 +21,10 @@ public class UserRoleBizImpl implements UserRoleBiz {
     @Override
     public Integer selectRoleIdByUserId(Integer userId) {
         return userRoleMapper.selectRoleIdByUserId(userId);
+    }
+
+    @Override
+    public int insert(UserRole record) {
+        return userRoleMapper.insert(record);
     }
 }

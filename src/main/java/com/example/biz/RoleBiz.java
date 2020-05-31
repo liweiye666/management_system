@@ -20,4 +20,5 @@ public interface RoleBiz {
     int delRoleByID(List<Integer> ids);
     Object updateByPrimaryKey(Role record);
     Object deleteByPrimaryKey(Integer deptId);
+    List<Role> selectAll();
 }

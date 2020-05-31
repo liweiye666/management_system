@@ -88,4 +88,9 @@ public class RoleBizImpl implements RoleBiz {
         }
         return map;
     }
+
+    @Override
+    public List<Role> selectAll() {
+        return roleMapper.selectAll();
+    }
 }
