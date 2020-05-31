@@ -29,15 +29,6 @@ import java.util.List;
 public class LoginController {
 
     @Autowired
-    private RoleBiz roleBizImpl;
-
-    @Autowired
-    private UserRoleBiz userRoleBizImpl;
-
-    @Autowired
-    private RoleMenuBiz roleMenuBizImpl;
-
-    @Autowired
     private MenuBiz menuBizImpl;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

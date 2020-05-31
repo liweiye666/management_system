@@ -27,7 +27,7 @@ public class ShiroUtil {
      * @param message
      * @return
      */
-    public static String  encryptionBySalt(String salt,String message){
+    public static String  encryptionBySalt(String salt, String message){
         /**
          * shiro加密：
          * String algorithmName 加密算法
@@ -41,4 +41,8 @@ public class ShiroUtil {
         return simpleHash.toString();
     }
 
+    public static void main(String[] args) {
+        System.out.println(encryptionBySalt("root", "root"));
+        System.out.println(encryptionBySalt("admin", "admin"));
+    }
 }

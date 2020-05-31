@@ -29,7 +29,7 @@ public class ShiroConfig {
     @Bean
     public ShiroRealm shiroRealm() {
         ShiroRealm shiroRealm = new ShiroRealm();
-        //shiroRealm.setCredentialsMatcher(credentialsMatcher());
+        shiroRealm.setCredentialsMatcher(credentialsMatcher());
         return shiroRealm;
     }
 
@@ -66,13 +66,33 @@ public class ShiroConfig {
         //添加到达页面需要的权限
         //User相关
         map.put("/toUser", "perms[/systemUserView]");
-        map.put("/user/selectAllUser", "perms[/systemUserView]");
-        map.put("/user/insertUser", "perms[/systemUserView]");
-        map.put("/user/updateUser", "perms[/systemUserView]");
-        map.put("/user/deleteUser", "perms[/systemUserView]");
-        map.put("/user/selectByLoginName", "perms[/systemUserView]");
+        map.put("/user/selectAllUser", "perms[/systemUserSelect]");
+        map.put("/user/insertUser", "perms[/systemUserInsert]");
+        map.put("/user/updateUser", "perms[/systemUserUpdate]");
+        map.put("/user/deleteUser", "perms[/systemUserDelete]");
+        map.put("/user/selectByLoginName", "perms[/systemUserSelect]");
         //Role相关
         map.put("/toRole", "perms[/systemRoleView]");
+        map.put("/role/selectAll", "perms[/systemRoleSelect]");
+        map.put("/role/addRole", "perms[/systemRoleInsert]");
+        map.put("/role/delRole", "perms[/systemRoleDelete]");
+        map.put("/role/editRole", "perms[/systemRoleUpdate]");
+        map.put("/role/deleteRole", "perms[/systemRoleDelete]");
+        //菜单相关
+        map.put("/toMenu", "perms[/systemMenuView]");
+        map.put("/menu/selectAllMenu", "perms[/systemMenuSelect]");
+        map.put("/menu/selectAll", "perms[/systemMenuSelect]");
+        map.put("/menu/addMenu", "perms[/systemMenuInsert]");
+        map.put("/menu/delMenu", "perms[/systemMenuDelete]");
+        map.put("/menu/deleteMenu", "perms[/systemMenuDelete]");
+        map.put("/menu/editMenu", "perms[/systemMenuUpdate]");
+        //部门相关
+        map.put("/toDept", "perms[/systemDeptView]");
+        map.put("/dept/selectAll", "perms[/systemDeptSelect]");
+        map.put("/dept/addDept", "perms[/systemDeptInsert]");
+        map.put("/dept/deleteDept", "perms[/systemDeptDelete]");
+        map.put("/dept/delDept", "perms[/systemDeptDelete]");
+        map.put("/dept/editDept", "perms[/systemDeptUpdate]");
         //过滤的页面请求(需要授权)
         map.put("/*", "authc");
 
