@@ -64,4 +64,14 @@ public class UserBizImpl implements UserBiz {
     public int updateByPrimaryKeySelective(User record) {
         return userMapper.updateByPrimaryKeySelective(record);
     }
+
+    @Override
+    public boolean checkUserLoginName(String loginName) {
+        User user = userMapper.selectByLoginName(loginName);
+        System.out.println(user);
+        if(user == null){
+            return true;
+        }else
+            return false;
+    }
 }

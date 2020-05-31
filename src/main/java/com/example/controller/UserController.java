@@ -174,4 +174,10 @@ public class UserController {
         return json;
     }
 
+    //查看用户民是否存在
+    @RequestMapping(value = "/checkUserName",method = RequestMethod.POST)
+    @ResponseBody
+    public Boolean checkUserName(String loginName){
+        return userBizImpl.checkUserLoginName(loginName);
+    }
 }

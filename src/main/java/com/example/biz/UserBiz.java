@@ -30,4 +30,5 @@ public interface UserBiz {
 
     int updateByPrimaryKeySelective(User record);
 
+    boolean checkUserLoginName(String loginName);
 }

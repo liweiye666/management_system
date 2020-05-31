@@ -23,10 +23,11 @@
         </script>
 
         <form class="layui-form" action="" id="userSaveForm" style="display: none">
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="loginName-Box">
                 <label class="layui-form-label">登录名</label>
                 <div class="layui-input-block">
-                    <input type="text" name="loginName" required  lay-verify="required" placeholder="请输入登录名" autocomplete="off" class="layui-input">
+                    <input type="text" name="loginName" required  lay-verify="required"
+                           id="loginName" placeholder="请输入登录名" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -78,7 +79,8 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <div class="layui-input-block">
-                    <input type="text" id="userName" name="userName" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                    <input type="text" id="userName" name="userName" required
+                           placeholder="请输入用户名" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -131,7 +133,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">确  认</label>
                 <div class="layui-input-block">
-                    <input type="password" id="affirmNewPassword" name="affirmNewPassword" required  lay-verify="required" placeholder="再次确认新密码" autocomplete="off" class="layui-input">
+                    <input type="password"  lay-verify="required|confirmPass" placeholder="再次确认新密码" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -157,6 +159,15 @@
             </div>
         </form>
     </body>
+
+<!--    <script type="text/javascript">-->
+<!--        function checkName()-->
+<!--        {-->
+<!--            var x=document.getElementById("userName").value;-->
+<!--            var ifExit;-->
+<!--        }-->
+<!--    </script>-->
+
     <script>
         layui.use('form', function () {
             $.ajax({
@@ -178,9 +189,12 @@
             });
         })
     </script>
+
+
     <script>
         var form=layui.form;
         var table=layui.table;
+        var $=layui.$;
         form.render();//渲染表单
         //第一个实例
         var myTable= table.render({
@@ -202,6 +216,37 @@
                     ,{ title: '操作', width:300, toolbar: '#barDemo'}
                 ]]
         });
+
+        $("#loginName").blur(function () {
+            var loginName = $(this);
+            var ifExit;
+            $.ajax({
+                url: '/user/checkUserName',
+                dataType: 'json',
+                type:'POST',
+                async: false,
+                data: loginName,
+                success:function (result) {
+                    ifExit = result;
+                }
+            });
+            if (ifExit){
+            }else {
+                $("#loginName").css('color','red');
+                layer.msg('该登录名已存在')
+                return ;
+            }
+        });
+
+        // 校验两次密码是否一致
+        form.verify({
+            confirmPass:function(value){
+                if($('input[name=newpassword]').val() !== value)
+                    return '两次密码输入不一致！';
+            }
+        });
+
+
         //监听头工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id)
@@ -453,5 +498,6 @@
                 )
             }
         });
+
     </script>
 </html>
