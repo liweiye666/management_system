@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.example.biz.UserBiz;
 import com.example.entity.MsJson;
 import com.example.entity.User;
-import com.example.shiro.ShiroUtil;
 import com.example.util.MyConstants;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Project: management_system
@@ -53,10 +55,6 @@ public class UserController {
     @RequestMapping(value = "/insertUser")
     @ResponseBody
     public Object insertUser(User user){
-        String salt = UUID.randomUUID().toString();
-        String password = ShiroUtil.encryptionBySalt(salt, user.getPassword());
-        user.setPassword(password);
-        user.setSalt(salt);
         int i = userBizImpl.insertSelective(user);
         Map map = new HashMap<>();
         if (i > 0) {

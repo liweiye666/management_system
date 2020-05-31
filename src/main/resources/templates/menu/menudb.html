@@ -156,7 +156,7 @@
 
 <!-- 表格操作列 -->
 <script type="text/html" id="tbBar">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 
@@ -253,6 +253,8 @@
             } else if (event === 'edit') {
                 $("#menuId").val(data.menuId);
                 $("#menuName").val(data.menuName);
+                $("#parentId").val(data.parentId);
+                $("#orderNum").val(data.orderNum);
                 layer.open(
                     {
                         type: 1,

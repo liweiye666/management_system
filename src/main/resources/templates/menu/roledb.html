@@ -32,6 +32,12 @@
         </div>
     </div>
     <div class="layui-form-item">
+        <label class="layui-form-label">状 态</label>
+        <div class="layui-input-block">
+            <input type="checkbox" value="0" id="statuscheck" name="status"lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF" checked>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="button"  	class="layui-btn layui-btn-normal" lay-submit lay-filter="saveRoleForm">保存</button>
             <button type="reset"  	class="layui-btn layui-btn-warm">重置</button>
@@ -68,7 +74,14 @@
     <div class="layui-form-item">
         <label class="layui-form-label">状 态</label>
         <div class="layui-input-block">
-            <input type="text" id="status" name="status" required  lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input">
+            <input type="text" id="status" name="status" required  lay-verify="required" autocomplete="off" class="layui-input">
+            <script type="text/html" id="showstatus">
+                {{#  if(d.status == 0){ }}
+                <span class="layui-badge layui-bg-green">正常</span>
+                {{#  } else { }}
+                <span class="layui-badge layui-bg-red">停用</span>
+                {{#  } }}
+            </script>
         </div>
     </div>
     <div class="layui-form-item">
@@ -83,6 +96,8 @@
 <script>
     var form=layui.form;
     var table=layui.table;
+    var layer=layui.layer;
+    $=layui.$;
     form.render();//渲染表单
     //第一个实例
     var myTable= table.render({
@@ -99,7 +114,7 @@
                 ,{field:'roleName', title:'角色名称', width:120, edit: 'text'}
                 ,{field:'roleKey', title:'权限字符', width:120, edit: 'text'}
                 ,{field:'roleSort', title:'显示顺序', width:120, sort: true}
-                ,{field:'status', title:'状态', width:80, edit: 'text', sort: true}
+                ,{field:'status', title:'状态', width:100,templet:"#showstatus",sort: true}
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
             ]]
     });
@@ -116,7 +131,7 @@
                         content: $("#roleSaveForm"),
                         icon: 1,
                         title:"添加部门",
-                        area: ['450px', '200px']
+                        area: ['500px', '200px']
                     }
                 )
                 break;
@@ -224,6 +239,17 @@
         });
         return false;
     });
+
+    //监听开关事件
+    form.on('switch(switchTest)', function (data) {
+        // var status = this.checked ? '0' : '-1';
+        data.elem.checked = true;//强制将checkbox为checked,否则会传值NULL
+        var isLockVal = $("#statuscheck").val();
+        isLockVal == '0' ? $("#statuscheck").val('1') : $("#status").val('0');//修改值
+        isLockVal == '0' ? $("#statuscheck").next().prop("class", "layui-unselect layui-form-switch ")
+            : $("#statuscheck").next().prop("class", "layui-unselect layui-form-switch layui-form-onswitch");//修样式
+    });
+
     //监听行工具事件
     table.on('tool(test)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
         var data = obj.data //获得当前行数据
@@ -255,8 +281,10 @@
             layer.msg('编辑操作');
             //填充修改用户的表单项
             console.log(data);
+            $("#status").val(data.status);
             $("#roleName").val(data.roleName);
             $("#roleId").val(data.roleId);
+            $("#roleSort").val(data.roleSort);
             $("#roleKey").val(data.roleKey);
             layer.open(
                 {
