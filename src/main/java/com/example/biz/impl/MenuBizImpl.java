@@ -67,5 +67,36 @@ public class MenuBizImpl implements MenuBiz {
         return map;
     }
 
+    @Override
+    public int delMenuByID(List<Integer> ids) {
+        return menuMapper.delMenuByID(ids);
+    }
 
+    @Override
+    public Object deleteByPrimaryKey(Integer menuId) {
+        int i = menuMapper.deleteByPrimaryKey(menuId);
+        Map map = new HashMap<>();
+        if(i>0){
+            map.put("code", MyConstants.successCode);
+            map.put("message",MyConstants.delSuccessMsg);
+        }else {
+            map.put("code",MyConstants.failCode);
+            map.put("message",MyConstants.delFailMsg);
+        }
+        return map;
+    }
+
+    @Override
+    public Object updateByPrimaryKey(Menu record) {
+        int i = menuMapper.updateByPrimaryKey(record);
+        Map map = new HashMap<>();
+        if(i>0){
+            map.put("code", MyConstants.successCode);
+            map.put("message",MyConstants.editSuccessMsg);
+        }else {
+            map.put("code",MyConstants.failCode);
+            map.put("message",MyConstants.editFailMsg);
+        }
+        return map;
+    }
 }

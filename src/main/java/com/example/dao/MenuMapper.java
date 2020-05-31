@@ -2,6 +2,7 @@ package com.example.dao;
 
 import com.example.entity.Menu;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface MenuMapper {
     List<Menu> selectAllMenu();
 
     List<Menu> selectMenuByUserLoginName(String loginName);
+
+    int delMenuByID( @Param("ids") List<Integer> ids);
 }

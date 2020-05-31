@@ -25,6 +25,13 @@
     delete from tbl_menu
     where menu_id = #{menuId,jdbcType=INTEGER}
   </delete>
+  <delete id="delMenuByID"  parameterType="java.util.List">
+    delete from tbl_menu
+    where menu_id in
+    <foreach collection="ids" item="xxx" open="(" close=")" separator=",">
+      #{xxx}
+    </foreach>
+  </delete>
   <insert id="insert" parameterType="com.example.entity.Menu">
     insert into tbl_menu (menu_id, menu_name, parent_id, 
       order_num, url, menu_type, 

@@ -23,4 +23,10 @@ public interface MenuBiz {
     List<Menu> selectAll();
 
     Object insert(Menu record);
+
+    int delMenuByID(List<Integer> ids);
+
+    Object deleteByPrimaryKey(Integer menuId);
+
+    Object updateByPrimaryKey(Menu record);
 }

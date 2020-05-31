@@ -43,8 +43,8 @@
         <button id="btnRefresh" class="layui-btn layui-btn-sm layui-btn-primary">
             <i class="layui-icon">&#xe669;</i>刷新
         </button>
-        <button id="btnGetChecked" class="layui-btn layui-btn-sm layui-btn-primary">获取选中</button>
-        <button id="btnToggleSide" class="layui-btn layui-btn-sm layui-btn-primary">演示侧边栏</button>
+<!--        <button id="btnGetChecked" class="layui-btn layui-btn-sm layui-btn-primary">获取选中</button>-->
+<!--        <button id="btnToggleSide" class="layui-btn layui-btn-sm layui-btn-primary">演示侧边栏</button>-->
     </div>
     <div class="layui-btn-container" style="display: inline-block;">
         <button id="btnExpandAll" class="layui-btn layui-btn-sm layui-btn-primary">
@@ -53,17 +53,17 @@
         <button id="btnFoldAll" class="layui-btn layui-btn-sm layui-btn-primary">
             <i class="layui-icon">&#xe66b;</i>折叠全部
         </button>
-        <button id="btnExpand" class="layui-btn layui-btn-sm layui-btn-primary">
-            <i class="layui-icon">&#xe625;</i>展开用户管理
-        </button>
-        <button id="btnFold" class="layui-btn layui-btn-sm layui-btn-primary">
-            <i class="layui-icon">&#xe623;</i>折叠用户管理
-        </button>
-        <button id="btnChecked" class="layui-btn layui-btn-sm layui-btn-primary">
-            <i class="layui-icon">&#xe605;</i>勾选添加用户
-        </button>
+<!--        <button id="btnExpand" class="layui-btn layui-btn-sm layui-btn-primary">-->
+<!--            <i class="layui-icon">&#xe625;</i>展开用户管理-->
+<!--        </button>-->
+<!--        <button id="btnFold" class="layui-btn layui-btn-sm layui-btn-primary">-->
+<!--            <i class="layui-icon">&#xe623;</i>折叠用户管理-->
+<!--        </button>-->
+<!--        <button id="btnChecked" class="layui-btn layui-btn-sm layui-btn-primary">-->
+<!--            <i class="layui-icon">&#xe605;</i>勾选添加用户-->
+<!--        </button>-->
     </div>
-    <input class="layui-input" id="edtSearch" value="添加用户" placeholder="输入关键字"
+    <input class="layui-input" id="edtSearch" value="" placeholder="输入关键字"
            style="display: inline-block;width: 140px;height: 30px;line-height: 30px;padding: 0 5px;margin-right: 5px;"/>
     <div class="layui-btn-container" style="display: inline-block;">
         <button id="btnSearch" class="layui-btn layui-btn-sm layui-btn-primary">
@@ -106,6 +106,54 @@
 
 </form>
 
+<form class="layui-form" action="" id="menuEditForm" style="display: none">
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="menuId" name="menuId" required  lay-verify="required"
+                   placeholder="请输入菜单ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="menuName" name="menuName" required  lay-verify="required" placeholder="请输入菜单名称" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">父菜单ID</label>
+        <div class="layui-input-block">
+            <input type="text" id="parentId" name="parentId" required  lay-verify="required"
+                   placeholder="请输入父菜单ID" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">显示顺序</label>
+        <div class="layui-input-block">
+            <input type="text" id="orderNum" name="orderNum" required  lay-verify="required" placeholder="请输入显示顺序" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单类型</label>
+        <div class="layui-input-block">
+            <input type="text" id="menuType" name="menuType" required  lay-verify="required" placeholder="请输入菜单类型" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">状 态</label>
+        <div class="layui-input-block">
+            <input type="text" id="visible" name="visible" required  lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button"  	class="layui-btn layui-btn-normal" lay-submit lay-filter="editMenuForm">修改</button>
+            <button type="reset"  	class="layui-btn layui-btn-warm">重置</button>
+        </div>
+    </div>
+
+</form>
+
 <!-- 表格操作列 -->
 <script type="text/html" id="tbBar">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
@@ -130,6 +178,7 @@
 
         // 渲染表格
         var insTb = treeTable.render({
+            id:'myTree',
             elem: '#demoTreeTb',
             url: '/menu/selectAll',
             toolbar: 'default',
@@ -158,6 +207,7 @@
                     {type: 'numbers'},
                     {type: 'checkbox'},
                     {field: 'menuName', title: '菜单名称', minWidth: 165},
+                    {field:'menuId', title:'ID',width:80},
                     {
                         title: '菜单图标', align: 'center', hide: true,
                         templet: '<p><i class="layui-icon {{d.menuIcon}}"></i></p>'
@@ -178,17 +228,48 @@
         // 工具列点击事件
         treeTable.on('tool(demoTreeTb)', function (obj) {
             var event = obj.event;
+            var data = obj.data;
             if (event === 'del') {
-                layer.msg('删除成功');
-                obj.del();
+                layer.confirm('真的删除行么', function(index){
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: 'get',
+                        url: '/menu/deleteMenu',
+                        data: {
+                            menuId: data.menuId,  //此处是根据id查询此id是否被删除，故将id传向后端
+                        },
+                        contentType: 'application/json',
+                        success: function (data) {
+                            layer.msg('删除成功啦', { icon: 1 }, { time: 2000 });
+                            obj.del(); //删除对应行（tr）的DOM结构
+                            layer.close(index);
+                            insTb.reload();
+                        },
+                        error: function (data) {
+                            layer.msg('连接网络失败，请检查网络设置或联系管理员', { icon: 2 }, { time: 2000 });
+                        }
+                    });
+                });
             } else if (event === 'edit') {
-                layer.msg('修改成功');
-                obj.update({authorityName: '新的名称'});
+                $("#menuId").val(data.menuId);
+                $("#menuName").val(data.menuName);
+                layer.open(
+                    {
+                        type: 1,
+                        content: $("#menuEditForm"),
+                        icon: 1,
+                        title:"修改菜单",
+                        area: ['450px', '310px']
+                    }
+                )
             }
         });
 
         // 头部工具栏点击事件
         treeTable.on('toolbar(demoTreeTb)', function (obj) {
+            // var checkStatus = treeTable.checkStatus(obj.config.id)
+            //     ,data = checkStatus.data; //获取选中的数据
+            var ids=[];
             switch (obj.event) {
                 case 'add':
                     layer.open(
@@ -202,7 +283,6 @@
                     )
                     break;
                 case 'delete':
-                    layer.msg('删除');
                     break;
                 case 'update':
                     layer.msg('编辑');
@@ -295,7 +375,35 @@
                         //显示添加成功消息
                         layer.msg(result.message,{icon:1})
                         //重新加载数据表格
-                        myTable.reload();
+                        insTb.reload();
+                    }else
+                    {
+                        //关闭弹出层
+                        layer.closeAll();
+                        layer.msg(result.message,{icon:5})
+                    }
+                }
+            });
+            return false;
+        });
+
+        form.on('submit(editMenuForm)', function(data){
+            //数据的提交，ajax方式
+            console.log(data.field)
+            $.ajax({
+                url: '/menu/editMenu',//地址
+                dataType: 'json',//数据类型
+                type: 'POST',//类型
+                data:data.field,
+                //请求成功
+                success: function (result) {
+                    if(result.code==0){
+                        //关闭弹出层
+                        layer.closeAll();
+                        //显示添加成功消息
+                        layer.msg(result.message,{icon:1})
+                        //重新加载数据表格
+                        insTb.reload();
                     }else
                     {
                         //关闭弹出层
