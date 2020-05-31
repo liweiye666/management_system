@@ -2,9 +2,11 @@ package com.example.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.biz.RoleBiz;
+import com.example.biz.RoleMenuBiz;
 import com.example.entity.Dept;
 import com.example.entity.MsJson;
 import com.example.entity.Role;
+import com.example.entity.RoleMenu;
 import com.example.util.MyConstants;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,9 @@ public class RoleController {
     @Autowired
     private RoleBiz roleBizImpl;
 
+    @Autowired
+    private RoleMenuBiz roleMenuBizImpl;
+
     //查询角色所有数据
     @RequestMapping("/selectAll")
     @ResponseBody
@@ -50,8 +55,30 @@ public class RoleController {
     @RequestMapping(value = "/addRole",method = RequestMethod.POST)
     @ResponseBody
     public Object addRole(Role role){
-       Map map = (Map)roleBizImpl.insert(role);
-       return map;
+        System.out.println("角色");
+        Map map = (Map)roleBizImpl.insert(role);
+        return map;
+    }
+
+    @RequestMapping(value = "/insertRoleMenu")
+    @ResponseBody
+    public Object insertRoleMenu(@RequestParam(value = "df") String df) {
+        System.out.println("权限");
+        List<String> list = (List<String>) JSON.parse(df);
+        System.out.println(list);
+        for (String str : list) {
+            System.out.println(str);
+        }
+        int i = 1;// = roleMenuBizImpl.insert(roleMenu);
+        Map map = new HashMap<>();
+        if (i > 0) {
+            map.put("code", MyConstants.successCode);
+            map.put("message", MyConstants.saveSuccessMsg);
+        } else {
+            map.put("code", MyConstants.failCode);
+            map.put("message", MyConstants.saveFailMsg);
+        }
+        return map;
     }
 
     //批量删除角色

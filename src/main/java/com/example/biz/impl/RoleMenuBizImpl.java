@@ -24,4 +24,9 @@ public class RoleMenuBizImpl implements RoleMenuBiz {
     public List<Integer> selectMenuIdByRoleId(Integer roleId) {
         return roleMenuMapper.selectMenuIdByRoleId(roleId);
     }
+
+    @Override
+    public int insert(RoleMenu record) {
+        return roleMenuMapper.insert(record);
+    }
 }

@@ -13,4 +13,6 @@ import java.util.List;
 public interface RoleMenuBiz {
 
     List<Integer> selectMenuIdByRoleId(Integer roleId);
+
+    int insert(RoleMenu record);
 }
