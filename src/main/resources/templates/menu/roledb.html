@@ -37,6 +37,7 @@
             <input type="checkbox" value="0" id="statuscheck" name="status"lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF" checked>
         </div>
     </div>
+    <div id="test12" class="demo-tree-more"></div>
     <div class="layui-form-item">
         <div class="layui-input-block">
             <button type="button"  	class="layui-btn layui-btn-normal" lay-submit lay-filter="saveRoleForm">保存</button>
@@ -130,8 +131,8 @@
                         type: 1,
                         content: $("#roleSaveForm"),
                         icon: 1,
-                        title:"添加部门",
-                        area: ['500px', '200px']
+                        title:"添加角色",
+                        area: ['400px', '320px']
                     }
                 )
                 break;
@@ -298,5 +299,52 @@
         }
     });
 
+    layui.use(['tree', 'util'], function(){
+
+        var tree = layui.tree
+            ,layer = layui.layer
+            ,util = layui.util
+
+        $.ajax({
+            url: '/menu/selectAllMenu',//地址
+            dataType: 'json',//数据类型
+            type: 'GET',//类型
+            //请求成功
+            success: function (result) {
+                //基本演示
+                tree.render({
+                    elem: '#test12'
+                    ,data: result
+                    ,showCheckbox: true  //是否显示复选框
+                    ,id: 'demoId1'
+                    ,isJump: true //是否允许点击节点时弹出新窗口跳转
+                    ,click: function(obj){
+                        var data = obj.data;  //获取当前点击的节点数据
+                        layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
+                    }
+                });
+            }
+        });
+
+        //按钮事件
+        util.event('lay-demo', {
+            getChecked: function(othis){
+                var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+
+                layer.alert(JSON.stringify(checkedData), {shade:0});
+                console.log(checkedData);
+            }
+            ,setChecked: function(){
+                tree.setChecked('demoId1', [12, 16]); //勾选指定节点
+            }
+            ,reload: function(){
+                //重载实例
+                tree.reload('demoId1', {
+
+                });
+
+            }
+        });
+    });
 </script>
 </html>

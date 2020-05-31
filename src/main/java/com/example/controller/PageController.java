@@ -46,6 +46,6 @@ public class PageController {
     //登录页面跳转
     @RequestMapping(value = "/toUnau")
     public String toUnau() {
-        return "/unau";
+        return "menu/showMenuTree2";
     }
 }
