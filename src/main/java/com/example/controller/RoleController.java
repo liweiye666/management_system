@@ -2,9 +2,7 @@ package com.example.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.example.biz.RoleBiz;
-import com.example.entity.Dept;
-import com.example.entity.MsJson;
-import com.example.entity.Role;
+import com.example.entity.*;
 import com.example.util.MyConstants;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +50,26 @@ public class RoleController {
     public Object addRole(Role role){
        Map map = (Map)roleBizImpl.insert(role);
        return map;
+    }
+
+    @RequestMapping(value = "/insertRoleMenu")
+    @ResponseBody
+    public Object insertRoleMenu(@RequestParam(value = "df") String df) {
+        System.out.println("权限");
+        List<MsTree> list = (List<MsTree>) JSON.parse(df);
+
+        System.out.println(list);
+
+        int i = 1;// = roleMenuBizImpl.insert(roleMenu);
+        Map map = new HashMap<>();
+        if (i > 0) {
+            map.put("code", MyConstants.successCode);
+            map.put("message", MyConstants.saveSuccessMsg);
+        } else {
+            map.put("code", MyConstants.failCode);
+            map.put("message", MyConstants.saveFailMsg);
+        }
+        return map;
     }
 
     //批量删除角色
