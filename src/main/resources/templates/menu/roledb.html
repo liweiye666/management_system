@@ -100,7 +100,8 @@
 
         var tree = layui.tree
             ,layer = layui.layer
-            ,util = layui.util
+            ,util = layui.util;
+        var ids1=[];
 
         $.ajax({
             url: '/menu/selectAllMenu',//地址
@@ -117,8 +118,7 @@
                     ,isJump: true //是否允许点击节点时弹出新窗口跳转
                     ,click: function(obj){
                         var data = obj.data;  //获取当前点击的节点数据
-                        // layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data));
-                        layer.msg(JSON.stringify(data));
+                        layer.msg('状态：'+ obj.state + '<br>节点数据：' + JSON.stringify(data))
                     }
                 });
             }
@@ -230,37 +230,40 @@
                     break;
             };
         });
+
         //监听提交
         form.on('submit(saveRoleForm)', function(data){
             //数据的提交，ajax方式
             console.log(data.field)
-            var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
-            // layer.alert(JSON.stringify(checkedData), {shade:0});
-
-            $.ajax({
-                url: '/role/insertRoleMenu',//地址
-                dataType: 'json',//数据类型
-                type: 'POST',//类型
-                data: {
-                    df:JSON.stringify(checkedData)
-                },
-                //请求成功
-                success: function (result) {
-                    if(result.code==0){
-                        //关闭弹出层
-                        layer.closeAll();
-                        //显示添加成功消息
-                        layer.msg(result.message,{icon:1})
-                        //重新加载数据表格
-                        myTable.reload();
-                    }else
-                    {
-                        //关闭弹出层
-                        layer.closeAll();
-                        layer.msg(result.message,{icon:5})
-                    }
-                }
-            });
+            // var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+            //
+            // // layer.alert(JSON.stringify(checkedData), {shade:0});
+            // var data1 = tree.getChecked('id');
+            // console.log(data1)
+            // $.ajax({
+            //     url: '/role/insertRoleMenu',//地址
+            //     dataType: 'json',//数据类型
+            //     type: 'POST',//类型
+            //     data: {
+            //         df:JSON.stringify(checkedData)
+            //     },
+            //     //请求成功
+            //     success: function (result) {
+            //         if(result.code==0){
+            //             //关闭弹出层
+            //             layer.closeAll();
+            //             //显示添加成功消息
+            //             layer.msg(result.message,{icon:1})
+            //             //重新加载数据表格
+            //             myTable.reload();
+            //         }else
+            //         {
+            //             //关闭弹出层
+            //             layer.closeAll();
+            //             layer.msg(result.message,{icon:5})
+            //         }
+            //     }
+            // });
 
             $.ajax({
                 url: '/role/addRole',//地址
