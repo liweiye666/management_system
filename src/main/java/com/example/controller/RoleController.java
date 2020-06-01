@@ -3,22 +3,18 @@ package com.example.controller;
 import com.alibaba.fastjson.JSON;
 import com.example.biz.RoleBiz;
 import com.example.biz.RoleMenuBiz;
-import com.example.entity.Dept;
-import com.example.entity.MsJson;
-import com.example.entity.Role;
-import com.example.entity.RoleMenu;
+import com.example.entity.*;
 import com.example.util.MyConstants;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Project: management_system
@@ -60,16 +56,66 @@ public class RoleController {
         return map;
     }
 
+    //角色菜单中间表
     @RequestMapping(value = "/insertRoleMenu")
     @ResponseBody
-    public Object insertRoleMenu(@RequestParam(value = "df") String df) {
+    public Object insertRoleMenu(int roleId, @RequestParam(value = "df") String df) {
         System.out.println("权限");
-        List<String> list = (List<String>) JSON.parse(df);
-        System.out.println(list);
-        for (String str : list) {
-            System.out.println(str);
+        List<?> list = (List<?>) JSON.parse(df);
+        String str = list.toString();
+
+        //字符串匹配方式获取list中的所有id，存放如idList中
+        int index = 0;
+        int flag = 0;
+        List<Integer> idList = new ArrayList<>();
+        int id;
+        int j;
+        char c;
+        String idStr = "";
+        for (j = 0; j<str.length(); j++) {
+            index = str.indexOf("id\":", flag);
+            index += 4;
+            for (;;) {
+                c = str.charAt(index);
+                if (c >= '0' && c <= '9') {
+                    idStr += c;
+                    index ++;
+                }
+                else {
+                    break;
+                }
+            }
+            if (idStr != "") {
+                id = Integer.parseInt(idStr);
+                if (idList.size() == 0) {
+                    idList.add(id);
+                } else {
+                    int idList0 = idList.get(0);
+                    if (id == idList0) {
+                        break;
+                    } else {
+                        idList.add(id);
+                    }
+                }
+            }
+            idStr = "";
+            flag = index + 5;
         }
-        int i = 1;// = roleMenuBizImpl.insert(roleMenu);
+
+        int i = 1;
+        int a;
+        int menuId;
+        for (j = 0; j < idList.size(); j ++) {
+            menuId = idList.get(j);
+            RoleMenu roleMenu = new RoleMenu();
+            roleMenu.setRoleId(roleId);
+            roleMenu.setMenuId(menuId);
+            a = roleMenuBizImpl.insert(roleMenu);
+            if (a <=1) {
+                i = 0;
+            }
+        }
+
         Map map = new HashMap<>();
         if (i > 0) {
             map.put("code", MyConstants.successCode);
