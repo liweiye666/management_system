@@ -49,10 +49,14 @@
                 <li class="layui-nav-item layui-nav-itemed">
                     <a class="" href="javascript:;">系统管理</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="/toUser">用户管理</a></dd>
-                        <dd><a href="/toRole">角色管理</a></dd>
-                        <dd><a href="/toMenu">菜单管理</a></dd>
-                        <dd><a href="/toDept">部门管理</a></dd>
+<!--                        <dd shiro:hasPermission="/systemUserView"><a href="/toUser">用户管理</a></dd>-->
+<!--                        <dd shiro:hasPermission="/systemRoleView"><a href="/toRole">角色管理</a></dd>-->
+<!--                        <dd shiro:hasPermission="/systemMenuView"><a href="/toMenu">菜单管理</a></dd>-->
+<!--                        <dd shiro:hasPermission="/systemDeptView"><a href="/toDept">部门管理</a></dd>-->
+                        <shiro:hasPermission name="/systemUserView"><dd><a href="/toUser">用户管理</a></dd></shiro:hasPermission>
+                        <shiro:hasPermission name="/systemRoleView"><dd><a href="/toRole">角色管理</a></dd></shiro:hasPermission>
+                        <shiro:hasPermission name="/systemMenuView"><dd><a href="/toMenu">菜单管理</a></dd></shiro:hasPermission>
+                        <shiro:hasPermission name="/systemDeptView"><dd><a href="/toDept">部门管理</a></dd></shiro:hasPermission>
                     </dl>
                 </li>
                 <li class="layui-nav-item layui-nav-itemed">

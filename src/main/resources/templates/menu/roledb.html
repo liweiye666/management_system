@@ -1,5 +1,6 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>角色管理</title>
@@ -10,13 +11,13 @@
 <body>
 <table id="demo" lay-filter="test"></table>
 <script type="text/html" id="mytoolbar">
-    <button type="button" class="layui-btn layui-btn-sm" lay-event="saveRole"><i class="layui-icon layui-icon-addition"></i>添加</button>
-    <button type="button" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delRole"><i class="layui-icon layui-icon-delete"></i>删除</button>
+    <button type="button" shiro:hasPermission="/systemRoleInsert" class="layui-btn layui-btn-sm" lay-event="saveRole"><i class="layui-icon layui-icon-addition"></i>添加</button>
+    <button type="button" shiro:hasPermission="/systemRoleDelete" class="layui-btn layui-btn-sm layui-btn-danger" lay-event="delRole"><i class="layui-icon layui-icon-delete"></i>删除</button>
 </script>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit" shiro:hasPermission="/systemRoleUpdate">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="/systemRoleDelete">删除</a>
 </script>
 <form class="layui-form" action="" id="roleSaveForm" style="display: none">
     <div class="layui-form-item">
@@ -48,7 +49,7 @@
 </form>
 <form class="layui-form" action="" id="roleEditForm" style="display: none">
     <div class="layui-form-item">
-        <label class="layui-form-label">角色名称</label>
+        <label class="layui-form-label">角色ID</label>
         <div class="layui-input-block">
             <input type="text" id="roleId" name="roleId" required  lay-verify="required"
                    readonly="readonly" placeholder="角色ID" autocomplete="off" class="layui-input">

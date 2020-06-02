@@ -1,5 +1,6 @@
 package com.example.shiro;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import com.example.util.MyConstants;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -71,6 +72,7 @@ public class ShiroConfig {
         map.put("/user/updateUser", "perms[/systemUserUpdate]");
         map.put("/user/deleteUser", "perms[/systemUserDelete]");
         map.put("/user/selectByLoginName", "perms[/systemUserSelect]");
+        map.put("/user/resetPassword","perms[/systemUpdatePassword]");
         //Role相关
         map.put("/toRole", "perms[/systemRoleView]");
         map.put("/role/selectAll", "perms[/systemRoleSelect]");
@@ -116,5 +118,14 @@ public class ShiroConfig {
         //加密1000次
         credentialsMatcher.setHashIterations(MyConstants.hashIterations);
         return credentialsMatcher;
+    }
+
+    /**
+     * 设置shiro的方言
+     * @return
+     */
+    @Bean
+    public ShiroDialect shiroDialect(){
+        return new ShiroDialect();
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html >
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -156,8 +157,8 @@
 
 <!-- 表格操作列 -->
 <script type="text/html" id="tbBar">
-    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit" shiro:hasPermission="/systemMenuInsert">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" shiro:hasPermission="/systemMenuDelete">删除</a>
 </script>
 
 <script src="layui/layui.js"></script>
