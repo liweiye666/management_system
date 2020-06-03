@@ -16,7 +16,7 @@ public class PageController {
     //登录页面跳转
     @RequestMapping(value = "/toLogin")
     public String toLogin() {
-        return "/login";
+        return "login";
     }
 
     //用户管理界面跳转

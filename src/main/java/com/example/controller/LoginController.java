@@ -44,11 +44,11 @@ public class LoginController {
             subject.login(usernamePasswordToken);
         } catch (UnknownAccountException e) {
             model.addAttribute("message", "用户名错误");
-            return "/login";
+            return "login";
         }
         catch (IncorrectCredentialsException e) {
             model.addAttribute("message", "密码错误");
-            return "/login";
+            return "login";
         }
 
         //将要去index页面之前，保存部分数据到model
@@ -56,7 +56,7 @@ public class LoginController {
         //放入所有的菜单，根据当前登录的用户
         List<MsTree> menuList = menuBizImpl.selectMenuByUserLoginName(loginName);
         model.addAttribute("menus", menuList);
-        return "/menu/index";
+        return "menu/index";
     }
 
 
@@ -67,6 +67,6 @@ public class LoginController {
     public String logout(){
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "/login";
+        return "login";
     }
 }
